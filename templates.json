@@ -1,0 +1,32 @@
+{
+	"templates": [
+		{
+			"name": "Pyhton Script",
+			"description": "Creates an empty python script.",
+			"icon": "python",
+			"category": "Python",
+			"files": [
+				{
+					"source": "templates/python-script/python.py",
+					"destination": "{{= data.name }}.py"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Script Name",
+					"description": "Name of the Script",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "argparse",
+					"displayName": "Commandline Arguments",
+					"description": "Select whether to include argparse",
+					"type":"boolean",
+					"default": false
+				}
+			]
+		}
+	]
+}
