@@ -1,13 +1,106 @@
 {
 	"templates": [
 		{
-			"name": "Pyhton Script",
-			"description": "Creates an empty python script.",
-			"icon": "python",
+			"name": "C Module",
+			"description": "Create a C source module with header file",
+			"icon": "file-code",
+			"category": "C",
+			"files": [
+				{
+					"source": "templates/c/module.dot.js",
+					"destination": "{{= data.name }}.c"
+				},
+				{
+					"source": "templates/c/header.dot.js",
+					"destination": "{{= data.name }}.h"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Module Name",
+					"description": "Name of the C module (lowercase with underscores)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[a-z][a-z0-9_]*$",
+					"patternErrorMessage": "Module name must be lowercase and can contain only letters, numbers, and underscores"
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the module",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "guardStyle",
+					"displayName": "Include Guard Style",
+					"description": "Style of include guards to use",
+					"type": "selection",
+					"default": "define",
+					"options": [
+					{"value": "define", "label": "#define guards"},
+					{"value": "pragma", "label": "#pragma once"}
+					]
+				}
+			]
+		},
+		{
+			"name": "C++ Class",
+			"description": "Create a C++ class with header and implementation files",
+			"icon": "file-code",
+			"category": "C++",
+			"files": [
+				{
+					"source": "templates/cpp/class.dot.js",
+					"destination": "{{= data.name }}.cpp"
+				},
+				{
+					"source": "templates/cpp/header.dot.js",
+					"destination": "{{= data.name }}.h"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Class Name",
+					"description": "Name of the C++ class (PascalCase)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[A-Z][a-zA-Z0-9]*$",
+					"patternErrorMessage": "Class name must be in PascalCase"
+				},
+				{
+					"name": "namespace",
+					"displayName": "Namespace",
+					"description": "Namespace for the class (optional)",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the class",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "includeVirtualDestructor",
+					"displayName": "Virtual Destructor",
+					"description": "Include a virtual destructor",
+					"type": "boolean",
+					"default": false
+				}
+			]
+		},
+		{
+			"name": "Python Script",
+			"description": "Create a standalone Python script",
+			"icon": "file-code",
 			"category": "Python",
 			"files": [
 				{
-					"source": "templates/python-script/python.py",
+					"source": "templates/python/script.dot.js",
 					"destination": "{{= data.name }}.py"
 				}
 			],
@@ -15,16 +108,335 @@
 				{
 					"name": "name",
 					"displayName": "Script Name",
-					"description": "Name of the Script",
+					"description": "Name of the Python script (snake_case)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[a-z][a-z0-9_]*$",
+					"patternErrorMessage": "Script name must be in snake_case"
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the script",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "includeArgparse",
+					"displayName": "Command Line Arguments",
+					"description": "Include argparse for command line arguments",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"name": "pythonVersion",
+					"displayName": "Python Version",
+					"description": "Target Python version",
+					"type": "selection",
+					"default": "3.8+",
+					"options": [
+					{"value": "3.6+", "label": "Python 3.6+"},
+					{"value": "3.8+", "label": "Python 3.8+"},
+					{"value": "3.10+", "label": "Python 3.10+"}
+					]
+				}
+			]
+		},
+		{
+			"name": "Python Module",
+			"description": "Create a Python module file",
+			"icon": "file-code",
+			"category": "Python",
+			"files": [
+				{
+					"source": "templates/python/module.dot.js",
+					"destination": "{{= data.name }}.py"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Module Name",
+					"description": "Name of the Python module (snake_case)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[a-z][a-z0-9_]*$",
+					"patternErrorMessage": "Module name must be in snake_case"
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the module",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "includeClass",
+					"displayName": "Include Class",
+					"description": "Include a class definition",
+					"type": "boolean",
+					"default": true
+				}
+			]
+		},
+		{
+			"name": "Python Package",
+			"description": "Create a Python package structure",
+			"icon": "file-code",
+			"category": "Python",
+			"files": [
+				{
+					"source": "templates/python/package.dot.js",
+					"destination": "{{= data.name }}/__init__.py"
+				},
+				{
+					"source": "templates/python/module.dot.js",
+					"destination": "{{= data.name }}/core.py"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Package Name",
+					"description": "Name of the Python package (snake_case)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[a-z][a-z0-9_]*$",
+					"patternErrorMessage": "Package name must be in snake_case"
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the package",
+					"type": "string",
+					"required": false
+				}
+			]
+		},
+		{
+			"name": "C# Class",
+			"description": "Create a C# class file",
+			"icon": "file-code",
+			"category": "C#",
+			"files": [
+				{
+					"source": "templates/csharp/class.dot.js",
+					"destination": "{{= data.name }}.cs"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Class Name",
+					"description": "Name of the C# class (PascalCase)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[A-Z][a-zA-Z0-9]*$",
+					"patternErrorMessage": "Class name must be in PascalCase"
+				},
+				{
+					"name": "namespace",
+					"displayName": "Namespace",
+					"description": "Namespace for the class",
 					"type": "string",
 					"required": true
 				},
 				{
-					"name": "argparse",
-					"displayName": "Commandline Arguments",
-					"description": "Select whether to include argparse",
-					"type":"boolean",
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the class",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "includeConstructor",
+					"displayName": "Include Constructor",
+					"description": "Include a constructor",
+					"type": "boolean",
+					"default": true
+				},
+				{
+					"name": "includeInterface",
+					"displayName": "Implement Interface",
+					"description": "Implement an interface",
+					"type": "boolean",
 					"default": false
+				},
+				{
+					"name": "interfaceName",
+					"displayName": "Interface Name",
+					"description": "Name of the interface to implement (if any)",
+					"type": "string",
+					"required": false
+				}
+			]
+		},
+		{
+			"name": "HTML Page",
+			"description": "Create an HTML page with basic structure",
+			"icon": "globe",
+			"category": "Web",
+			"files": [
+				{
+					"source": "templates/web/html-page.dot.js",
+					"destination": "{{= data.name }}.html"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "File Name",
+					"description": "Name of the HTML file (without extension)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[a-z][a-z0-9_-]*$",
+					"patternErrorMessage": "File name must be lowercase and can contain only letters, numbers, underscores, and dashes"
+				},
+				{
+					"name": "title",
+					"displayName": "Page Title",
+					"description": "Title of the HTML page",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Meta description for the page",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "cssFramework",
+					"displayName": "CSS Framework",
+					"description": "Include a CSS framework",
+					"type": "selection",
+					"default": "none",
+					"options": [
+					{"value": "none", "label": "None"},
+					{"value": "bootstrap", "label": "Bootstrap"},
+					{"value": "tailwind", "label": "Tailwind CSS"}
+					]
+				}
+			]
+		},
+		{
+			"name": "React Component",
+			"description": "Create a React functional component",
+			"icon": "react",
+			"category": "Web",
+			"files": [
+				{
+					"source": "templates/web/react-component.dot.js",
+					"destination": "{{= data.name }}.{{= data.typescript ? 'tsx' : 'jsx' }}"
+				}
+			],
+			"parameters": [
+				{
+					"name": "name",
+					"displayName": "Component Name",
+					"description": "Name of the React component (PascalCase)",
+					"type": "string",
+					"required": true,
+					"pattern": "^[A-Z][a-zA-Z0-9]*$",
+					"patternErrorMessage": "Component name must be in PascalCase"
+				},
+				{
+					"name": "typescript",
+					"displayName": "Use TypeScript",
+					"description": "Create a TypeScript component",
+					"type": "boolean",
+					"default": true
+				},
+				{
+					"name": "useHooks",
+					"displayName": "Include Hooks",
+					"description": "Include useState and useEffect hooks",
+					"type": "boolean",
+					"default": true
+				},
+				{
+					"name": "includeProps",
+					"displayName": "Include Props",
+					"description": "Define component props",
+					"type": "boolean",
+					"default": true
+				}
+			]
+		},
+		{
+			"name": "README",
+			"description": "Create a README.md file",
+			"icon": "markdown",
+			"category": "Documentation",
+			"files": [
+				{
+					"source": "templates/docs/readme.dot.js",
+					"destination": "README.md"
+				}
+			],
+			"parameters": [
+				{
+					"name": "projectName",
+					"displayName": "Project Name",
+					"description": "Name of the project",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "description",
+					"displayName": "Description",
+					"description": "Brief description of the project",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "includeInstallation",
+					"displayName": "Installation Section",
+					"description": "Include installation instructions",
+					"type": "boolean",
+					"default": true
+				},
+				{
+					"name": "includeBadges",
+					"displayName": "Include Badges",
+					"description": "Include common repository badges",
+					"type": "boolean",
+					"default": true
+				}
+			]
+		},
+		{
+			"name": "JSON Config",
+			"description": "Create a JSON configuration file",
+			"icon": "json",
+			"category": "Configuration",
+			"files": [
+				{
+					"source": "templates/config/json-config.dot.js",
+					"destination": "{{= data.filename }}.json"
+				}
+			],
+			"parameters": [
+				{
+					"name": "filename",
+					"displayName": "File Name",
+					"description": "Name of the JSON file (without extension)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "configType",
+					"displayName": "Configuration Type",
+					"description": "Type of configuration file",
+					"type": "selection",
+					"default": "custom",
+					"options": [
+					{"value": "custom", "label": "Custom Configuration"},
+					{"value": "package", "label": "package.json"},
+					{"value": "tsconfig", "label": "tsconfig.json"},
+					{"value": "eslint", "label": ".eslintrc"}
+					]
 				}
 			]
 		}
