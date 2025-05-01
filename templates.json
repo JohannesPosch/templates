@@ -96,7 +96,7 @@
 		{
 			"name": "Python Script",
 			"description": "Create a standalone Python script",
-			"icon": "file-code",
+			"icon": "python",
 			"category": "Python",
 			"files": [
 				{
@@ -145,7 +145,7 @@
 		{
 			"name": "Python Module",
 			"description": "Create a Python module file",
-			"icon": "file-code",
+			"icon": "python",
 			"category": "Python",
 			"files": [
 				{
@@ -182,7 +182,7 @@
 		{
 			"name": "Python Package",
 			"description": "Create a Python package structure",
-			"icon": "file-code",
+			"icon": "python",
 			"category": "Python",
 			"files": [
 				{
