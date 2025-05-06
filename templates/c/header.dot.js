@@ -3,6 +3,8 @@
  * @brief {{=data.description || 'Header file for ' + data.name}}
  * @author {{=data.author.fullName}} <{{=data.author.email}}>
  * @date {{=data.date.toISOString().split('T')[0]}}
+ *
+ * @copyright (c) Copyright by {{=data.organization.name}}
  */
 
 {{? data.guardStyle === 'pragma' }}
